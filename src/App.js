@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -7,56 +6,25 @@ import {
   Link
 } from "react-router-dom";
 
+import {Header} from "./components/Header"
+import {Card} from "./components/Card"
+
 export default function App() {
+  let Cards =  [...Array(25).keys()].map((d) =>
+      <Card number = {d}/>
+  );
+
+
   return (
     <Router>
-      <div style = {{backgroundColor: "gray", display: "flex", flexDirection:"column", height: "100%"}}>
-        <div style = {{backgroundColor: "white", display: "flex", textAlign: "center"}}>
-          forum-renewal
-          <div style = {{flex: 1}}>header</div>
-          <div style = {{flex: 1}}>header</div>
-          <div style = {{flex: 1}}>header</div>
+      <div>
+        <div style = {{backgroundColor: "white"}}>
+          <Header/>
         </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/about">About</Link>
-            </li>
-            <li>
-              <Link to="/users">Users</Link>
-            </li>
-          </ul>
-        </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
+        <div  style = {{paddingTop: "20px", display: "flex", flexWrap: "wrap"}}>
+          {Cards}
+        </div>
       </div>
     </Router>
   );
-}
-
-function Home() {
-  return <h2>Home</h2>;
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Users() {
-  return <h2>Users</h2>;
 }
