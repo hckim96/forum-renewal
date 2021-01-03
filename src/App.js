@@ -8,23 +8,32 @@ import {
 
 import {Header} from "./components/Header"
 import {Card} from "./components/Card"
-
+import {FireworkCanvas} from "./routes/FireworkCanvas";
+import { Home } from './routes/Home';
+import { Write } from './routes/Write';
 export default function App() {
-  let Cards =  [...Array(25).keys()].map((d) =>
-      <Card number = {d}/>
-  );
+  
 
-
+  
   return (
     <Router>
-      <div>
-        <div style = {{backgroundColor: "white"}}>
+      <div style = {{backgroundColor: "white"}}>
           <Header/>
-        </div>
-        <div  style = {{paddingTop: "20px", display: "flex", flexWrap: "wrap"}}>
-          {Cards}
-        </div>
       </div>
+      <Route
+        exact
+        path='/'
+        render={() => <Home/>}
+      />
+      <Route
+        path='/canvas'
+        render={() => <FireworkCanvas/>}
+      />
+      <Route
+        path='/write'
+        render={() => <Write/>}
+      />
+
     </Router>
   );
 }

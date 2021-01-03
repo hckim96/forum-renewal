@@ -1,9 +1,11 @@
 import React from 'react'
+import './Card.css'
 
 export const Card = ({number}) => {
     return (
-        <div style = {{width: "200px", height: "200px", boxShadow: "3px 3px 10px black", margin: "10px"}}>
+        <div className = "card" style = {{ boxShadow: "3px 3px 10px black", borderRadius: "10px"}}>
             card {number}
         </div>
     )
 }
+
