@@ -8,7 +8,7 @@ export const PostList = ({postList}) => {
     })
 
     return (
-        <div style = {{marginLeft: "15%", marginRight: "15%", marginBottom: "10%"}}>
+        <div style = {{marginLeft: "15%", marginRight: "15%", marginBottom: "10%", marginTop: "3%"}}>
             {postView}
         </div>
     )

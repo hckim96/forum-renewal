@@ -1,15 +1,11 @@
 import React, { useState } from 'react'
 import ReactMde from "react-mde";
-import * as Showdown from "showdown";
+import ReactMarkdown from 'react-markdown'
+import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
+import {xonokai} from 'react-syntax-highlighter/dist/esm/styles/prism' // 1
+
 import "react-mde/lib/styles/css/react-mde-all.css";
 import "./Write.css"
-
-const converter = new Showdown.Converter({
-    tables: true,
-    simplifiedAutoLink: true,
-    strikethrough: true,
-    tasklists: true
-});
 
 const sampleBody = String.raw`**Hello world!!!**
 # 제목1
@@ -20,10 +16,23 @@ const sampleBody = String.raw`**Hello world!!!**
 - 하나
 - 둘
 - 셋
-${"```"}c++
-std::cout << "this is code";
+${"```"}cpp
+#include <iostream>
+using namespace std;
+int main() {
+  cout << "hello, world\n";
+}
 ${"```"}
+
+*Italic*
+> Blockquote
+
 `;
+const renderers = {
+    code: ({language, value}) => {
+      return <SyntaxHighlighter style={xonokai} language= {language} children={value} />
+    }
+}
 
 export const Write = ({onPostWrite}) => {
     const [title, setTitle] = useState("");
@@ -33,7 +42,6 @@ export const Write = ({onPostWrite}) => {
 
     return (
         <div className = "write-container">
-            {/* <form onSubmit = {() => {console.log("value = "); console.log(value);console.log("title = "); console.log(title);}}> */}
                 <input autoFocus = "true" 
                         placeholder = "제목을 입력하세요..." 
                         className = "write-title" 
@@ -48,14 +56,13 @@ export const Write = ({onPostWrite}) => {
                     onTabChange={setSelectedTab}
                     minEditorHeight = {400}
                     generateMarkdownPreview={markdown =>
-                    Promise.resolve(converter.makeHtml(markdown))
+                    Promise.resolve(<ReactMarkdown renderers={renderers}>{markdown}</ReactMarkdown>)
                     }
                 />
 
                 <button onClick = {() => {
-                    onPostWrite({title: title, body: value});
+                    onPostWrite({title: title, body: value, createdAt: Date.now()});
                 }} style = {{width: "50px", alignSelf: "flex-end"}}>등록</button>
-            {/* </form> */}
         </div>
     )
 }

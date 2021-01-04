@@ -4,11 +4,14 @@
     position: absolute;
 } */
 .postPreview {
-    background-color: #fbefcc;
+    /* background-color: #fbefcc; */
     border-radius: 10px;
-    padding-bottom: 1px;
+    /* padding-bottom: 1px; */
     box-shadow: 3px 3px 10px black;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
+
 .postPreview + .postPreview{
     /* border-top: 1px solid black; */
     margin-top: 10px;
@@ -16,4 +19,13 @@
 
 .postPreview-title {
     border-bottom: 1px dotted black;
+}
+
+.postPreview-body {
+    display: -webkit-box;
+    -webkit-line-clamp: 6;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
