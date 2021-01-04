@@ -31,8 +31,8 @@ export const FireworkCanvas = () => {
                 limiterTotal = 5,
                 limiterTick = 0,
                 // this will time the auto launches of fireworks, one launch per 80 loop ticks
-                timerTotal = 80,
-                timerTick = 0,
+                // timerTotal = 80,
+                // timerTick = 0,
                 mousedown = false,
                 // mouse x coordinate,
                 mx,
@@ -185,7 +185,7 @@ export const FireworkCanvas = () => {
         
         // draw particle
         Particle.prototype.draw = function() {
-            ctx. beginPath();
+            ctx.beginPath();
             // move to the last tracked coordinates in the set, then draw a line to the current x and y
             ctx.moveTo( this.coordinates[ this.coordinates.length - 1 ][ 0 ], this.coordinates[ this.coordinates.length - 1 ][ 1 ] );
             ctx.lineTo( this.x, this.y );
@@ -233,7 +233,8 @@ export const FireworkCanvas = () => {
             }
             
             // loop over each particle, draw it, update it
-            var i = particles.length;
+            // var i = particles.length;
+            i = particles.length;
             while( i-- ) {
                 particles[ i ].draw();
                 particles[ i ].update( i );

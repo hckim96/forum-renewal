@@ -1,22 +1,32 @@
 import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
-  Link
 } from "react-router-dom";
 
 import {Header} from "./components/Header"
-import {Card} from "./components/Card"
 import {FireworkCanvas} from "./routes/FireworkCanvas";
 import { Home } from './routes/Home';
 import { Write } from './routes/Write';
-export default function App() {
-  
+import { PostList } from './routes/PostList';
+import { useState } from 'react';
+import { useHistory } from "react-router-dom";
 
-  
+
+export default function App(props) {
+  const history = useHistory();
+  const [postList, setPostList] = useState(
+    [...Array(3).keys()].map((n) => {
+      return {title: "sample title" + n, body: "sample body" + n};
+    })
+  )
+  const onPostWrite = (p) => {
+    setPostList([...postList, p]);
+    history.push("/post");
+  }
   return (
-    <Router>
+    <div>
+
       <div style = {{backgroundColor: "white"}}>
           <Header/>
       </div>
@@ -24,16 +34,19 @@ export default function App() {
         exact
         path='/'
         render={() => <Home/>}
-      />
+        />
       <Route
         path='/canvas'
         render={() => <FireworkCanvas/>}
       />
       <Route
         path='/write'
-        render={() => <Write/>}
-      />
-
-    </Router>
+        render={() => <Write onPostWrite = {onPostWrite}/>}
+        />
+      <Route
+        path='/post'
+        render={() => <PostList postList = {postList}/>}
+        />
+    </div>
   );
 }

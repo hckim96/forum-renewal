@@ -1,0 +1,19 @@
+/* .postPreview-container {
+    opacity: .2;
+    background-color: cornflowerblue;
+    position: absolute;
+} */
+.postPreview {
+    background-color: #fbefcc;
+    border-radius: 10px;
+    padding-bottom: 1px;
+    box-shadow: 3px 3px 10px black;
+}
+.postPreview + .postPreview{
+    /* border-top: 1px solid black; */
+    margin-top: 10px;
+}
+
+.postPreview-title {
+    border-bottom: 1px dotted black;
+}

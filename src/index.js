@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {
+  BrowserRouter as Router,
+  Route,
+} from "react-router-dom";
+
 // import { Provider } from 'react-redux'
 // import store from './redux/store'
 
@@ -13,7 +18,9 @@ import reportWebVitals from './reportWebVitals';
 //   document.getElementById('root')
 // );
 ReactDOM.render(
-      <App />,
+  <Router>
+      <App />
+  </Router>,
   document.getElementById('root')
 );
 
