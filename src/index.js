@@ -18,7 +18,7 @@ import {
 //   document.getElementById('root')
 // );
 ReactDOM.render(
-  <Router>
+  <Router basename="/forum-renewal">
       <App />
   </Router>,
   document.getElementById('root')
