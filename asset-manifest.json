@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/forum-renewal/static/css/main.18772766.chunk.css",
-    "main.js": "/forum-renewal/static/js/main.7e38f608.chunk.js",
-    "main.js.map": "/forum-renewal/static/js/main.7e38f608.chunk.js.map",
+    "main.js": "/forum-renewal/static/js/main.6b77a36f.chunk.js",
+    "main.js.map": "/forum-renewal/static/js/main.6b77a36f.chunk.js.map",
     "runtime-main.js": "/forum-renewal/static/js/runtime-main.f85237f1.js",
     "runtime-main.js.map": "/forum-renewal/static/js/runtime-main.f85237f1.js.map",
     "static/css/2.bd4c212a.chunk.css": "/forum-renewal/static/css/2.bd4c212a.chunk.css",
@@ -20,6 +20,6 @@
     "static/css/2.bd4c212a.chunk.css",
     "static/js/2.3eaf6f47.chunk.js",
     "static/css/main.18772766.chunk.css",
-    "static/js/main.7e38f608.chunk.js"
+    "static/js/main.6b77a36f.chunk.js"
   ]
 }
