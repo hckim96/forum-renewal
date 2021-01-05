@@ -1,0 +1,26 @@
+.header-container {
+    transition: all 1s;
+}
+.header-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    text-decoration: none;
+
+    color: black;
+    /* padding: .5rem; */
+    border-bottom: 1px solid white;
+}
+.header-link:hover {
+    border-bottom: 1px solid black;
+}
+.header-activeLink {
+    border-bottom: 1px solid black;
+}
+
+.header-underbar {
+
+    height: 10px;
+    background-color: black;
+}
