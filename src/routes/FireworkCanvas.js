@@ -196,7 +196,7 @@ export const FireworkCanvas = () => {
         // create particle group/explosion
         function createParticles( x, y ) {
             // increase the particle count for a bigger explosion, beware of the canvas performance hit with the increased particles though
-            var particleCount = 40;
+            var particleCount = 30;
             while( particleCount-- ) {
                 particles.push( new Particle( x, y ) );
             }
@@ -216,10 +216,13 @@ export const FireworkCanvas = () => {
             // normally, clearRect() would be used to clear the canvas
             // we want to create a trailing effect though
             // setting the composite operation to destination-out will allow us to clear the canvas at a specific opacity, rather than wiping it entirely
-            ctx.globalCompositeOperation = 'destination-out';
-            // ctx.globalCompositeOperation = 'destination-over';
+
+            // ctx.globalCompositeOperation = 'destination-out';
+            // ctx.fillStyle = "rgba(0, 0, 0, .3)";
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = "rgba(0, 0, 0, .5)";
+            
             // decrease the alpha property to create more prominent trails
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
             ctx.fillRect( 0, 0, cw, ch );
             // change the composite operation back to our main mode
             // lighter creates bright highlight points as the fireworks and particles overlap each other

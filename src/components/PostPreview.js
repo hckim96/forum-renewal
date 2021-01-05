@@ -38,7 +38,7 @@ const renderers = {
 
 export const PostPreview = ({post}) => {
     return (
-        <div className = "postPreview">
+        <div className = "postPreview" onClick = {() => {alert("clicked")}}>
             <h1 className = "postPreview-title">{post.title}</h1>
             <div>
                 <span>{formatDate(post.createdAt)}</span> 

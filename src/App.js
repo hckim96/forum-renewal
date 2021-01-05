@@ -11,6 +11,7 @@ import { Write } from './routes/Write';
 import { PostList } from './routes/PostList';
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
+import { PostView } from './routes/PostView';
 
 
 export default function App() {
@@ -67,8 +68,18 @@ createdAt: Date.now()
         render={() => <Write onPostWrite = {onPostWrite}/>}
         />
       <Route
+        exact
         path='/post'
         render={() => <PostList postList = {[].concat(postList).reverse()}/>}
+        />
+      <Route
+        path='/post/:id'
+        render={({ match }) => (
+            <PostView
+                post={this.state.posts[match.params.id]}
+                postid={match.params.id}
+            />
+        )}
         />
     </div>
   );

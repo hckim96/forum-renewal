@@ -60,9 +60,10 @@ export const Write = ({onPostWrite}) => {
                     }
                 />
 
-                <button onClick = {() => {
+                <button className = "write-button"
+                onClick = {() => {
                     onPostWrite({title: title, body: value, createdAt: Date.now()});
-                }} style = {{width: "50px", alignSelf: "flex-end"}}>등록</button>
+                }} >등록</button>
         </div>
     )
 }
