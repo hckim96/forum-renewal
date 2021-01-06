@@ -12,9 +12,9 @@ function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        hour = d.getHours(),
-        minute = d.getMinutes(),
-        second = d.getSeconds();
+        hour = '' + d.getHours(),
+        minute = '' + d.getMinutes(),
+        second = '' + d.getSeconds();
 
     if (month.length < 2) 
         month = '0' + month;
@@ -26,7 +26,7 @@ function formatDate(date) {
         minute = '0' + minute;
     if (second.length < 2) 
         second = '0' + second;
-
+        
     return `${month}-${day} ${hour}:${minute}:${second}`;
 }
 
