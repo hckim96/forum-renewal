@@ -36,3 +36,7 @@
     text-overflow: ellipsis;
 
 }
+
+.postPreview-info-container {
+    color: gray;
+}

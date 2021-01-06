@@ -3,6 +3,7 @@ import "./PostPreview.css";
 import ReactMarkdown from 'react-markdown'
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {xonokai} from 'react-syntax-highlighter/dist/esm/styles/prism' // 1
+import { useHistory } from 'react-router-dom';
 // import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism'
 // import {coy} from 'react-syntax-highlighter/dist/esm/styles/prism'
 // import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -11,7 +12,6 @@ function formatDate(date) {
     var d = new Date(date),
         month = '' + (d.getMonth() + 1),
         day = '' + d.getDate(),
-        year = d.getFullYear(),
         hour = d.getHours(),
         minute = d.getMinutes(),
         second = d.getSeconds();
@@ -37,11 +37,15 @@ const renderers = {
 }
 
 export const PostPreview = ({post}) => {
+    const history = useHistory();
+
     return (
-        <div className = "postPreview" onClick = {() => {alert("clicked")}}>
+        <div className = "postPreview" onClick = {() => {history.push(`/post/${post.id}`)}}>
             <h1 className = "postPreview-title">{post.title}</h1>
-            <div>
-                <span>{formatDate(post.createdAt)}</span> 
+            <div className = "postPreview-info-container">
+                <small>{post.id}</small>
+                <small>&nbsp;&nbsp;&nbsp;</small>
+                <small>{formatDate(post.createdAt)}</small> 
             </div>
             <div className = "postPreview-body">
                 <ReactMarkdown renderers={renderers}>{post.body}</ReactMarkdown>

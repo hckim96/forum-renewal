@@ -1,6 +1,5 @@
 import './App.css';
 import {
-  BrowserRouter as Router,
   Route,
 } from "react-router-dom";
 
@@ -13,7 +12,6 @@ import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { PostView } from './routes/PostView';
 
-
 export default function App() {
   const history = useHistory();
   // const [postList, setPostList] = useState(
@@ -22,7 +20,8 @@ export default function App() {
   //   })
   // )
   const [postList, setPostList] = useState(
-    [{title: "SampleTitle",
+    [{id: 0,
+      title: "SampleTitle",
     body: String.raw`**Hello world!!!**
 # 제목1
 1. 1번
@@ -48,6 +47,7 @@ createdAt: Date.now()
   }]
   )
   const onPostWrite = (p) => {
+    p.id = postList[postList.length - 1].id + 1;
     setPostList([...postList, p]);
     history.push("/post");
   }
@@ -76,8 +76,7 @@ createdAt: Date.now()
         path='/post/:id'
         render={({ match }) => (
             <PostView
-                post={this.state.posts[match.params.id]}
-                postid={match.params.id}
+                post={postList[match.params.id]}
             />
         )}
         />

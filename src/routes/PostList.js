@@ -1,10 +1,13 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom';
 import {PostPreview} from "../components/PostPreview";
 
 export const PostList = ({postList}) => {
 
     const postView = postList.map((p) => {
-        return <PostPreview post = {p}/>
+        return <PostPreview key = {p.id}
+                            post = {p}
+                            />
     })
 
     return (

@@ -1,0 +1,11 @@
+.postView-container {
+    margin-left: 20%;
+    margin-right: 20%;
+    padding-bottom: 4rem;
+}
+
+.postView-info-container {
+    display: flex;
+    color: gray;
+    justify-content: space-between;
+}
