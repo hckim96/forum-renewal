@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactMarkdown from 'react-markdown'
+import { useHistory } from 'react-router-dom';
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import {xonokai} from 'react-syntax-highlighter/dist/esm/styles/prism' // 1
 import "./PostView.css";
@@ -32,6 +33,9 @@ const renderers = {
 }
 
 export const PostView = ({post, onPostDelete}) => {
+
+    const history = useHistory();
+
     return (
         <div className = "postView-container">
             <h1 className = "postView-title">{post.title}</h1>
@@ -42,9 +46,9 @@ export const PostView = ({post, onPostDelete}) => {
                     <small>{formatDate(post.createdAt)}</small> 
                 </div>
                 <div style = {{justifySelf: "flex-end"}}>
-                    <span style = {{cursor: "pointer"}}>수정</span>
+                    <span onClick = {() => {history.push(`/write?id=${post.id}`)}} style = {{cursor: "pointer"}}>수정</span>
                     <small>&nbsp;&nbsp;&nbsp;</small>
-                    <span onClick = {() => {onPostDelete(post)}} style = {{cursor: "pointer"}}>삭제</span>
+                    <span onClick = {() => {onPostDelete(post); alert("삭제되었습니다.")}} style = {{cursor: "pointer"}}>삭제</span>
                 </div>
             </div>
             <div className = "postView-body">

@@ -6,6 +6,7 @@ import {xonokai} from 'react-syntax-highlighter/dist/esm/styles/prism' // 1
 
 import "react-mde/lib/styles/css/react-mde-all.css";
 import "./Write.css"
+import { useHistory } from 'react-router-dom';
 
 const sampleBody = String.raw`**Hello world!!!**
 # 제목1
@@ -28,33 +29,32 @@ ${"```"}
 > Blockquote
 
 `;
+
 const renderers = {
     code: ({language, value}) => {
-      return <SyntaxHighlighter style={xonokai} language= {language} children={value} />
+      return <SyntaxHighlighter style={xonokai} language= {language} children={value}/>
     }
 }
 
-export const Write = ({onPostWrite, id}) => {
+export const Write = ({onPostWrite, onPostUpdate, post}) => {
 
-    const [title, setTitle] = useState("");
-    const [value, setValue] = useState(sampleBody);
+    let post2 = post ? post : {"title" : "", "body" : sampleBody};
+    const [title, setTitle] = useState(post2.title);
+    const [value, setValue] = useState(post2.body);
     
-    if (id) {
-        
-    }
     const [selectedTab, setSelectedTab] = useState("write");
 
+    const history = useHistory();
     return (
         <div>
-            {id ?
-
+            {post ?
             (<div className = "write-container">
-                    <input autoFocus = "true" 
+                    <input
                             placeholder = "제목을 입력하세요..." 
                             className = "write-title" 
                             type="text" value={title} 
                             onChange={e => setTitle(e.target.value)}
-                    />
+                            />
                     <ReactMde
                         className = "write-mde"
                         value={value}
@@ -63,19 +63,20 @@ export const Write = ({onPostWrite, id}) => {
                         onTabChange={setSelectedTab}
                         minEditorHeight = {400}
                         generateMarkdownPreview={markdown =>
-                        Promise.resolve(<ReactMarkdown renderers={renderers}>{markdown}</ReactMarkdown>)
+                            Promise.resolve(<ReactMarkdown renderers={renderers}>{markdown}</ReactMarkdown>)
                         }
-                    />
+                        />
 
                     <button className = "write-button"
                     onClick = {() => {
-                        alert("hi");
-                        // onPostWrite({title: title, body: value, createdAt: Date.now()});
+                        onPostUpdate({...post2 ,title: title, body: value, id: post2.id});
+                        alert("수정되었습니다.")
+                        history.push(`/post/${post2.id}`);
                     }} >수정</button>
             </div>)
             :
             (<div className = "write-container">
-                    <input autoFocus = "true" 
+                    <input autoFocus = {true} 
                             placeholder = "제목을 입력하세요..." 
                             className = "write-title" 
                             type="text" value={title} 

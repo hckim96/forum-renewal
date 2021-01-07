@@ -1,6 +1,6 @@
 import './App.css';
 import {
-  Route,
+  Route, useLocation,
 } from "react-router-dom";
 
 import {Header} from "./components/Header"
@@ -56,6 +56,18 @@ createdAt: Date.now()
     history.push("/post");
   }
 
+  const onPostUpdate = (p) => {
+    const newPostList = postList.map((post) => {
+      if (post.id === p.id) {
+        return {...post, title: p.title, body: p.body};
+      } else {
+        return post;
+      }
+    })
+
+    setPostList(newPostList);
+  }
+
   const onPostDelete = (p) => {
     setPostList(postList.filter(post => post.id !== p.id));
     history.push("/post");
@@ -77,6 +89,12 @@ createdAt: Date.now()
     }
   }
 
+  function useQuery() {
+    return new URLSearchParams(useLocation().search);
+  }
+
+  let query = useQuery();
+
   return (
     <div>
       <Header/>
@@ -91,7 +109,14 @@ createdAt: Date.now()
       />
       <Route
         path='/write'
-        render={() => <Write onPostWrite = {onPostWrite}/>}
+        render = {() => {
+          let id = query.get("id");
+          if (id) {
+            return <Write post = {postList[findPostIdx(Number(id))]} onPostUpdate = {onPostUpdate}/>
+          } else {
+            return <Write onPostWrite = {onPostWrite}/>
+          }
+        }}
         />
       <Route
         exact
