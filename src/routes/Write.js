@@ -34,36 +34,71 @@ const renderers = {
     }
 }
 
-export const Write = ({onPostWrite}) => {
+export const Write = ({onPostWrite, id}) => {
+
     const [title, setTitle] = useState("");
-    // const [value, setValue] = useState("**Hello world!!!**\n# abcd");
     const [value, setValue] = useState(sampleBody);
+    
+    if (id) {
+        
+    }
     const [selectedTab, setSelectedTab] = useState("write");
 
     return (
-        <div className = "write-container">
-                <input autoFocus = "true" 
-                        placeholder = "제목을 입력하세요..." 
-                        className = "write-title" 
-                        type="text" value={title} 
-                        onChange={e => setTitle(e.target.value)}
-                />
-                <ReactMde
-                    className = "write-mde"
-                    value={value}
-                    onChange={setValue}
-                    selectedTab={selectedTab}
-                    onTabChange={setSelectedTab}
-                    minEditorHeight = {400}
-                    generateMarkdownPreview={markdown =>
-                    Promise.resolve(<ReactMarkdown renderers={renderers}>{markdown}</ReactMarkdown>)
-                    }
-                />
+        <div>
+            {id ?
 
-                <button className = "write-button"
-                onClick = {() => {
-                    onPostWrite({title: title, body: value, createdAt: Date.now()});
-                }} >등록</button>
+            (<div className = "write-container">
+                    <input autoFocus = "true" 
+                            placeholder = "제목을 입력하세요..." 
+                            className = "write-title" 
+                            type="text" value={title} 
+                            onChange={e => setTitle(e.target.value)}
+                    />
+                    <ReactMde
+                        className = "write-mde"
+                        value={value}
+                        onChange={setValue}
+                        selectedTab={selectedTab}
+                        onTabChange={setSelectedTab}
+                        minEditorHeight = {400}
+                        generateMarkdownPreview={markdown =>
+                        Promise.resolve(<ReactMarkdown renderers={renderers}>{markdown}</ReactMarkdown>)
+                        }
+                    />
+
+                    <button className = "write-button"
+                    onClick = {() => {
+                        alert("hi");
+                        // onPostWrite({title: title, body: value, createdAt: Date.now()});
+                    }} >수정</button>
+            </div>)
+            :
+            (<div className = "write-container">
+                    <input autoFocus = "true" 
+                            placeholder = "제목을 입력하세요..." 
+                            className = "write-title" 
+                            type="text" value={title} 
+                            onChange={e => setTitle(e.target.value)}
+                    />
+                    <ReactMde
+                        className = "write-mde"
+                        value={value}
+                        onChange={setValue}
+                        selectedTab={selectedTab}
+                        onTabChange={setSelectedTab}
+                        minEditorHeight = {400}
+                        generateMarkdownPreview={markdown =>
+                        Promise.resolve(<ReactMarkdown renderers={renderers}>{markdown}</ReactMarkdown>)
+                        }
+                    />
+
+                    <button className = "write-button"
+                    onClick = {() => {
+                        onPostWrite({title: title, body: value, createdAt: Date.now()});
+                    }} >등록</button>
+            </div>)
+            }
         </div>
     )
 }

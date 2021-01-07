@@ -61,7 +61,15 @@ createdAt: Date.now()
     history.push("/post");
   }
 
-  const findPost = (id) => {
+  const findPostIdx = (id) => {
+    for (let idx in postList) {
+      if (postList[idx].id === id) {
+        return idx;
+      }
+    }
+  }
+
+  const getPost = (id) => {
     for (let idx in postList) {
       if (postList[idx].id === id) {
         return idx;
@@ -94,7 +102,7 @@ createdAt: Date.now()
         path='/post/:id'
         render={({ match }) => (
             <PostView
-                post = {postList[findPost(Number(match.params.id))]}
+                post = {postList[findPostIdx(Number(match.params.id))]}
                 onPostDelete = {onPostDelete}
             />
         )}
