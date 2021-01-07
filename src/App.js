@@ -47,10 +47,28 @@ createdAt: Date.now()
   }]
   )
   const onPostWrite = (p) => {
-    p.id = postList[postList.length - 1].id + 1;
+    if (postList.length !== 0) {
+      p.id = postList[postList.length - 1].id + 1;
+    } else {
+      p.id = 0;
+    }
     setPostList([...postList, p]);
     history.push("/post");
   }
+
+  const onPostDelete = (p) => {
+    setPostList(postList.filter(post => post.id !== p.id));
+    history.push("/post");
+  }
+
+  const findPost = (id) => {
+    for (let idx in postList) {
+      if (postList[idx].id === id) {
+        return idx;
+      }
+    }
+  }
+
   return (
     <div>
       <Header/>
@@ -76,7 +94,8 @@ createdAt: Date.now()
         path='/post/:id'
         render={({ match }) => (
             <PostView
-                post={postList[match.params.id]}
+                post = {postList[findPost(Number(match.params.id))]}
+                onPostDelete = {onPostDelete}
             />
         )}
         />

@@ -31,7 +31,7 @@ const renderers = {
     }
 }
 
-export const PostView = ({post}) => {
+export const PostView = ({post, onPostDelete}) => {
     return (
         <div className = "postView-container">
             <h1 className = "postView-title">{post.title}</h1>
@@ -44,7 +44,7 @@ export const PostView = ({post}) => {
                 <div style = {{justifySelf: "flex-end"}}>
                     <span style = {{cursor: "pointer"}}>수정</span>
                     <small>&nbsp;&nbsp;&nbsp;</small>
-                    <span style = {{cursor: "pointer"}}>삭제</span>
+                    <span onClick = {() => {onPostDelete(post)}} style = {{cursor: "pointer"}}>삭제</span>
                 </div>
             </div>
             <div className = "postView-body">

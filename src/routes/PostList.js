@@ -1,5 +1,4 @@
 import React from 'react'
-import { useHistory } from 'react-router-dom';
 import {PostPreview} from "../components/PostPreview";
 
 export const PostList = ({postList}) => {
