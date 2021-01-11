@@ -1,4 +1,4 @@
-.card {
+/* .card {
     width: 200px;
     height: 200px;
     top: 0px;
@@ -15,7 +15,7 @@
     transition: all .3s ease;
     margin: 10px;
     text-align: center;
-}
+} */
 
 /* .card:hover {
     width: 240px;
@@ -27,8 +27,13 @@
     opacity: .7;
     background-color: #F5F5DC;
 } */
+.flippy {
+    
+}
 
 .card-front {
+    width: 200px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -39,7 +44,10 @@
     opacity: 1.0;
     transition: all .3s ease;
 }
+
 .card-back {
+    width: 200px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;

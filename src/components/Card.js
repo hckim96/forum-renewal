@@ -16,7 +16,9 @@ export const Card = ({number}) => {
     ref={(r) => flippy = r} // to use toggle method like this.flippy.toggle()
     // if you pass isFlipped prop component will be controlled component.
     // and other props, which will go to div
+
     // style = {{width: "200px", height: "200px"}}
+    className = "flippy"
   >
     <FrontSide
         className = "card-front"
