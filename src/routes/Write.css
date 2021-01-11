@@ -19,7 +19,6 @@
 }
 
 .write-button {
-    /* background-color:deepskyblue; */
     background-color: white;
     padding: 10px;
     margin-top: 1rem;
@@ -27,8 +26,9 @@
     width: 70px;
     align-self: flex-end;
     cursor: pointer;
+    opacity: 1;
 }
 
 .write-button:hover {
-    opacity: 85%;
+    opacity: .7;
 }

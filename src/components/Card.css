@@ -1,24 +1,52 @@
 .card {
-    display: block;
+    width: 200px;
+    height: 200px;
+    top: 0px;
+    left: 0px; 
+    box-shadow: 3px 3px 10px black;
+    border-radius: 10px;
     position: relative;
-    /* background-color: #EACDC2; */
     background-color: #FFEBCD;
     top: 0px;
     left: 0px;
     width: 200px;
     height: 200px;
-    opacity: 70%;
+    opacity: 1.0;
     transition: all .3s ease;
     margin: 10px;
     text-align: center;
 }
 
-.card:hover {
+/* .card:hover {
     width: 240px;
     height: 240px;
     left: -30px;
     top: -30px;
     margin-bottom: -30px;
     margin-right: -30px;
+    opacity: .7;
     background-color: #F5F5DC;
+} */
+
+.card-front {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 10px black;
+    border-radius: 10px;
+    /* position: relative; */
+    background-color: #FFEBCD;
+    opacity: 1.0;
+    transition: all .3s ease;
+}
+.card-back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 3px 10px black;
+    border-radius: 10px;
+    /* position: relative; */
+    background-color: black;
+    opacity: 1.0;
+    transition: all .3s ease;
 }

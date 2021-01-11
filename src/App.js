@@ -14,11 +14,7 @@ import { PostView } from './routes/PostView';
 
 export default function App() {
   const history = useHistory();
-  // const [postList, setPostList] = useState(
-  //   [...Array(3).keys()].map((n) => {
-  //     return {title: "sample title" + n, body: "sample body" + n};
-  //   })
-  // )
+  
   const [postList, setPostList] = useState(
     [{id: 0,
       title: "SampleTitle",
@@ -74,14 +70,6 @@ createdAt: Date.now()
   }
 
   const findPostIdx = (id) => {
-    for (let idx in postList) {
-      if (postList[idx].id === id) {
-        return idx;
-      }
-    }
-  }
-
-  const getPost = (id) => {
     for (let idx in postList) {
       if (postList[idx].id === id) {
         return idx;
