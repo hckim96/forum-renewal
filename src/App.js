@@ -11,6 +11,7 @@ import { PostList } from './routes/PostList';
 import { useState } from 'react';
 import { useHistory } from "react-router-dom";
 import { PostView } from './routes/PostView';
+import { MemoryGame } from './routes/MemoryGame';
 
 export default function App() {
   const history = useHistory();
@@ -94,6 +95,10 @@ createdAt: Date.now()
       <Route
         path='/canvas'
         render={() => <FireworkCanvas/>}
+      />
+      <Route
+        path='/memoryGame'
+        render={() => <MemoryGame/>}
       />
       <Route
         path='/write'
