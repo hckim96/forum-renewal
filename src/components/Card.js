@@ -2,7 +2,7 @@ import React from 'react'
 import './Card.css'
 import Flippy, { FrontSide, BackSide } from 'react-flippy';
 
-export const Card = ({number, flipped, handleClick, matched}) => {
+export const Card = ({id, number, flipped, handleClick, matched}) => {
 
   return (
     <div className="card">
@@ -18,7 +18,7 @@ export const Card = ({number, flipped, handleClick, matched}) => {
           앞{number}
     </FrontSide>
         <BackSide
-          // onClick = {() => {handleClick(id)}}
+          onClick = {() => {handleClick(id)}}
           className="card-back"
         >
           뒤
