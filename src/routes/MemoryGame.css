@@ -1,5 +1,11 @@
 .memoryGame-container {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 1rem;
+}
+.memoryGame-cards {
+    display: flex;
     flex-wrap: wrap;
-    margin: 10%;
+    margin: 5% 13%;
 }

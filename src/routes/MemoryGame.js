@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from '../components/Card'
+import { TimeCounter } from '../components/TimeCounter'
 import "./MemoryGame.css"
+
 export const MemoryGame = () => {
     
     const generateCards = () => {
-        let tmp = [...Array(10).keys()]
+        // console.log("generateCards()")
+        let tmp = [...Array(2).keys()]
         tmp = tmp.concat(tmp);
         return tmp.map((t) => {
             let obj = {};
@@ -23,9 +26,15 @@ export const MemoryGame = () => {
         onAnimation: false,
         waitCardId: 0,
     });
+    useEffect(() => {
+        if (!state.isFinished && !state.cards.find(card => !card.matched)) {
+          setState({ ...state, isFinished: true });
+        }
+      }, [state]);
 
     const handleClick = (id) => {
 
+        // console.log(`handleClick(${id}) state: ${JSON.stringify(state)}`)
         let nextTurn = (state.gameTurn + 1) % 2;
         const cardsToUpdate = state.cards.map((card) => {
             const copyCard = {...card};
@@ -35,22 +44,27 @@ export const MemoryGame = () => {
             return copyCard;
         });
         
-        setState({...state, gameTurn: nextTurn, cards: cardsToUpdate});
-        
         if (nextTurn === 1) {
-            // gameTurn 0 // flipped one now
+            // flipped one now
             
-            setState({...state, waitCardId: id});
+            setState({...state, waitCardId: id, gameTurn: nextTurn, cards: cardsToUpdate});
         } else {
-            // gameTurn 1 // need to flip
+            // need to flip
             
+            // 일단 뒤집어
+            setState({...state, cards: cardsToUpdate});
+
             let justFlippedCard = state.cards.find((card) => card.id === id);
+
+            let matched = false;
             // find matching card card and 
-            let cardsToUpdate = state.cards.map((card) => {
+            let cardsToUpdate2 = cardsToUpdate.map((card) => {
                 const copyCard = {...card};
                 if (copyCard.id === state.waitCardId) {
                     if (justFlippedCard.content === copyCard.content) {
-
+                        // console.log('matching card!')
+                        matched = true;
+                        copyCard.matched = true;
                     } else {
                         copyCard.flipped = true;
                     }
@@ -58,24 +72,39 @@ export const MemoryGame = () => {
                 return copyCard;
             });
 
-            cardsToUpdate = cardsToUpdate.map((card) => {
-                const copyCard = {...card};
-                if (copyCard.id === id) {
-                    copyCard.flipped = true;
-                }
-            })
-
-            setState({...state, cards: cardsToUpdate});
+            if (!matched) {
+                // console.log("!matched")
+                cardsToUpdate2 = cardsToUpdate2.map((card) => {
+                    const copyCard = {...card};
+                    if (copyCard.id === id) {
+                        copyCard.flipped = true;
+                    }
+                    return copyCard
+                })
+            } else {
+                cardsToUpdate2 = cardsToUpdate2.map((card) => {
+                    const copyCard = {...card};
+                    if (copyCard.id === id) {
+                        copyCard.matched = true;
+                    }
+                    return copyCard
+                })
+            }
+            
+            setTimeout(() => {
+                setState({...state, gameTurn: nextTurn, cards: cardsToUpdate2});
+            }, 700);
         }
     }
 
     const generateCardComponents = () => {
+        // console.log("generateCardComponents()")
         return state.cards.map((obj) => {
             return <Card 
                         handleClick = {handleClick}
                         key = {obj.id}
                         id = {obj.id}
-                        number = {obj.content}
+                        content = {obj.content}
                         flipped = {obj.flipped}
                         matched = {obj.matched}
                     />
@@ -83,8 +112,12 @@ export const MemoryGame = () => {
     }
     return (
         <div className = "memoryGame-container">
-            {generateCardComponents()}
-            {/* <button onClick = {}>click</button> */}
+            <h1 className = "memoryGame-time">
+                <TimeCounter isFinished = {state.isFinished}/>
+                </h1>
+            <div className = "memoryGame-cards">
+                {generateCardComponents()}
+            </div>
         </div>
     )
 }
