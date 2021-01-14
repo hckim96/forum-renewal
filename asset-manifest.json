@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/forum-renewal/static/css/main.cd22c7f8.chunk.css",
-    "main.js": "/forum-renewal/static/js/main.61a13073.chunk.js",
-    "main.js.map": "/forum-renewal/static/js/main.61a13073.chunk.js.map",
-    "runtime-main.js": "/forum-renewal/static/js/runtime-main.1e3cea9a.js",
-    "runtime-main.js.map": "/forum-renewal/static/js/runtime-main.1e3cea9a.js.map",
-    "static/css/2.bd4c212a.chunk.css": "/forum-renewal/static/css/2.bd4c212a.chunk.css",
-    "static/js/2.797058c6.chunk.js": "/forum-renewal/static/js/2.797058c6.chunk.js",
-    "static/js/2.797058c6.chunk.js.map": "/forum-renewal/static/js/2.797058c6.chunk.js.map",
-    "static/js/3.daf79bc0.chunk.js": "/forum-renewal/static/js/3.daf79bc0.chunk.js",
-    "static/js/3.daf79bc0.chunk.js.map": "/forum-renewal/static/js/3.daf79bc0.chunk.js.map",
+    "main.css": "/forum-renewal/static/css/main.2ead1fbe.chunk.css",
+    "main.js": "/forum-renewal/static/js/main.ef92f91c.chunk.js",
+    "main.js.map": "/forum-renewal/static/js/main.ef92f91c.chunk.js.map",
+    "runtime-main.js": "/forum-renewal/static/js/runtime-main.0fb91687.js",
+    "runtime-main.js.map": "/forum-renewal/static/js/runtime-main.0fb91687.js.map",
+    "static/css/2.bb4680cb.chunk.css": "/forum-renewal/static/css/2.bb4680cb.chunk.css",
+    "static/js/2.9daff045.chunk.js": "/forum-renewal/static/js/2.9daff045.chunk.js",
+    "static/js/2.9daff045.chunk.js.map": "/forum-renewal/static/js/2.9daff045.chunk.js.map",
+    "static/js/3.53a089cb.chunk.js": "/forum-renewal/static/js/3.53a089cb.chunk.js",
+    "static/js/3.53a089cb.chunk.js.map": "/forum-renewal/static/js/3.53a089cb.chunk.js.map",
     "index.html": "/forum-renewal/index.html",
-    "static/css/2.bd4c212a.chunk.css.map": "/forum-renewal/static/css/2.bd4c212a.chunk.css.map",
-    "static/css/main.cd22c7f8.chunk.css.map": "/forum-renewal/static/css/main.cd22c7f8.chunk.css.map",
-    "static/js/2.797058c6.chunk.js.LICENSE.txt": "/forum-renewal/static/js/2.797058c6.chunk.js.LICENSE.txt"
+    "static/css/2.bb4680cb.chunk.css.map": "/forum-renewal/static/css/2.bb4680cb.chunk.css.map",
+    "static/css/main.2ead1fbe.chunk.css.map": "/forum-renewal/static/css/main.2ead1fbe.chunk.css.map",
+    "static/js/2.9daff045.chunk.js.LICENSE.txt": "/forum-renewal/static/js/2.9daff045.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.1e3cea9a.js",
-    "static/css/2.bd4c212a.chunk.css",
-    "static/js/2.797058c6.chunk.js",
-    "static/css/main.cd22c7f8.chunk.css",
-    "static/js/main.61a13073.chunk.js"
+    "static/js/runtime-main.0fb91687.js",
+    "static/css/2.bb4680cb.chunk.css",
+    "static/js/2.9daff045.chunk.js",
+    "static/css/main.2ead1fbe.chunk.css",
+    "static/js/main.ef92f91c.chunk.js"
   ]
 }
