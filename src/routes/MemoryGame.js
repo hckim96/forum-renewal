@@ -2,18 +2,29 @@ import React, { useEffect, useState } from 'react'
 import { Card } from '../components/Card'
 import { TimeCounter } from '../components/TimeCounter'
 import "./MemoryGame.css"
+import cardContent from "./cardContent.json";
 
 export const MemoryGame = () => {
-    
+
+    const suffleCards = (arr) => {
+        const newArr = arr.slice();
+        for (let i = newArr.length - 1; i > 0; i--) {
+            const rand = Math.floor(Math.random() * (i + 1)); // 0 ~ i
+            [newArr[i], newArr[rand]] = [newArr[rand], newArr[i]];
+        }
+        return newArr;
+    }
+
     const generateCards = () => {
-        // console.log("generateCards()")
-        let tmp = [...Array(2).keys()]
+        // let tmp = [...Array(3).keys()]
+        let tmp = cardContent;
         tmp = tmp.concat(tmp);
+        tmp = suffleCards(tmp);
         return tmp.map((t) => {
             let obj = {};
             obj.id = Math.random().toString(36).substr(2, 9);
             obj.flipped = true;
-            obj.content = t;
+            obj.content = t.content;
             obj.matched = false;
             return obj;
         });
@@ -25,17 +36,27 @@ export const MemoryGame = () => {
         gameTurn: 0,
         onAnimation: false,
         waitCardId: 0,
+        matched: 0,
     });
+
     useEffect(() => {
         if (!state.isFinished && !state.cards.find(card => !card.matched)) {
           setState({ ...state, isFinished: true });
-        }
+        } 
+        // else {
+        //     let cnt = 0;
+        //     for (let e of state.cards) {
+        //         if (e.matched) {
+        //             cnt++;
+        //         }
+        //     }
+        //     setState({...state, })
+        // }
       }, [state]);
 
     const handleClick = (id) => {
-
-        // console.log(`handleClick(${id}) state: ${JSON.stringify(state)}`)
         let nextTurn = (state.gameTurn + 1) % 2;
+        let nextMatchedCnt = state.matched;
         const cardsToUpdate = state.cards.map((card) => {
             const copyCard = {...card};
             if (copyCard.id === id) {
@@ -89,16 +110,16 @@ export const MemoryGame = () => {
                     }
                     return copyCard
                 })
+                nextMatchedCnt++;
             }
             
             setTimeout(() => {
-                setState({...state, gameTurn: nextTurn, cards: cardsToUpdate2});
+                setState({...state, matched: nextMatchedCnt, gameTurn: nextTurn, cards: cardsToUpdate2});
             }, 700);
         }
     }
 
     const generateCardComponents = () => {
-        // console.log("generateCardComponents()")
         return state.cards.map((obj) => {
             return <Card 
                         handleClick = {handleClick}
@@ -110,11 +131,24 @@ export const MemoryGame = () => {
                     />
         })
     }
+    const onRestart = () => {
+        setState({
+            cards: generateCards(), // [{id: , flipped: , ...}, {}, ...]
+            isFinished: false,
+            gameTurn: 0,
+            onAnimation: false,
+            waitCardId: 0,
+            matched: 0
+        });
+    }
     return (
         <div className = "memoryGame-container">
-            <h1 className = "memoryGame-time">
-                <TimeCounter isFinished = {state.isFinished}/>
+            <div className = "memoryGame-info" style = {{display: "flex"}}>
+                <h1>{state.matched}</h1>
+                <h1 className = "memoryGame-time">
+                    <TimeCounter isFinished = {state.isFinished} onRestart = {onRestart}/>
                 </h1>
+            </div>
             <div className = "memoryGame-cards">
                 {generateCardComponents()}
             </div>

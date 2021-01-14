@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-export const TimeCounter = ({isFinished}) => {
+export const TimeCounter = ({isFinished, onRestart}) => {
     const [state, setState] = useState({
         startTime: Date.now(),
         diff: 0,
@@ -15,23 +15,38 @@ export const TimeCounter = ({isFinished}) => {
 
         return `${m}분 ${s}초`
     }
+
     useEffect(() => {
         const id = setInterval(() => {
             setState({...state, diff: Date.now() - state.startTime});
         }, 200);
         intervalRef.current = id;
         return () => {
-            clearInterval(id);
+            console.log("useEffect cleanup Executed")
+            clearInterval(intervalRef.current);
         }
-    }, [])
+    }, [state.startTime])
+
     useEffect(() => {
         if (isFinished) {
             clearInterval(intervalRef.current);
         }
     }, [isFinished])
+
+    const handleRestart = () => {
+        setState({
+            startTime: Date.now(),
+            diff: 0
+        });
+        onRestart();
+    }
     return (
+        // <div style = {{display: "flex", padding: "1rem"}}>
         <div>
-            {formatTime(state.diff)}
+            <div>
+                {formatTime(state.diff)}
+            </div>
+            <button style = {{marginLeft: "1rem"}} onClick = {handleRestart}>Restart</button>
         </div>
     )
 }

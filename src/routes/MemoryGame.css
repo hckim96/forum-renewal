@@ -4,6 +4,11 @@
     align-items: center;
     margin-top: 1rem;
 }
+
+.memoryGame-info {
+    display: flex;
+    padding: 1rem;
+}
 .memoryGame-cards {
     display: flex;
     flex-wrap: wrap;
