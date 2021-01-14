@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import "./TimeCounter.css";
 
 export const TimeCounter = ({isFinished, onRestart}) => {
     const [state, setState] = useState({
@@ -13,19 +14,22 @@ export const TimeCounter = ({isFinished, onRestart}) => {
         let m = Math.floor(s / 60);
         s = (s - m * 60).toFixed(2);
 
-        return `${m}분 ${s}초`
+        // return `${m}분 ${s}`
+        return <div className = "timeCounter-time">
+            <span className = "dynamic">{m}</span><span>분</span><span className = "dynamic2">{s}</span><span>초</span>
+        </div>
     }
 
     useEffect(() => {
         const id = setInterval(() => {
             setState({...state, diff: Date.now() - state.startTime});
-        }, 200);
+        }, 80);
         intervalRef.current = id;
         return () => {
             console.log("useEffect cleanup Executed")
             clearInterval(intervalRef.current);
         }
-    }, [state.startTime])
+    }, [state])
 
     useEffect(() => {
         if (isFinished) {
@@ -41,12 +45,12 @@ export const TimeCounter = ({isFinished, onRestart}) => {
         onRestart();
     }
     return (
-        // <div style = {{display: "flex", padding: "1rem"}}>
-        <div>
-            <div>
-                {formatTime(state.diff)}
-            </div>
-            <button style = {{marginLeft: "1rem"}} onClick = {handleRestart}>Restart</button>
+        <div className = "timeCounter-container">
+            {/* <div className = "timeCounter-time">
+                {formatTime(state.diff)} <span>초</span>
+            </div> */}
+            {formatTime(state.diff)}
+            <button className = "timeCounter-restartButton" onClick = {handleRestart}>Restart</button>
         </div>
     )
 }

@@ -35,7 +35,6 @@ export const MemoryGame = () => {
         isFinished: false,
         gameTurn: 0,
         onAnimation: false,
-        waitCardId: 0,
         matched: 0,
     });
 
@@ -43,21 +42,13 @@ export const MemoryGame = () => {
         if (!state.isFinished && !state.cards.find(card => !card.matched)) {
           setState({ ...state, isFinished: true });
         } 
-        // else {
-        //     let cnt = 0;
-        //     for (let e of state.cards) {
-        //         if (e.matched) {
-        //             cnt++;
-        //         }
-        //     }
-        //     setState({...state, })
-        // }
       }, [state]);
 
     const handleClick = (id) => {
-        let nextTurn = (state.gameTurn + 1) % 2;
-        let nextMatchedCnt = state.matched;
-        const cardsToUpdate = state.cards.map((card) => {
+        if (state.onAnimation) {
+            return;
+        }
+        let cardsToUpdate = state.cards.map((card) => {
             const copyCard = {...card};
             if (copyCard.id === id) {
                 copyCard.flipped = false;
@@ -65,60 +56,54 @@ export const MemoryGame = () => {
             return copyCard;
         });
         
-        if (nextTurn === 1) {
-            // flipped one now
-            
-            setState({...state, waitCardId: id, gameTurn: nextTurn, cards: cardsToUpdate});
-        } else {
-            // need to flip
-            
-            // 일단 뒤집어
-            setState({...state, cards: cardsToUpdate});
+        // 일단 뒤집어
+        if (!state.onAnimation) {
+            setState({...state, onAnimation: state.gameTurn === 1, gameTurn: (state.gameTurn + 1) % 2, cards: cardsToUpdate});
+        }
 
-            let justFlippedCard = state.cards.find((card) => card.id === id);
+        const justFlippedCard = cardsToUpdate.find((card) => card.id === id);
 
-            let matched = false;
-            // find matching card card and 
-            let cardsToUpdate2 = cardsToUpdate.map((card) => {
-                const copyCard = {...card};
-                if (copyCard.id === state.waitCardId) {
-                    if (justFlippedCard.content === copyCard.content) {
-                        // console.log('matching card!')
-                        matched = true;
-                        copyCard.matched = true;
-                    } else {
-                        copyCard.flipped = true;
-                    }
+        let isMatched = false;
+
+        // find matching card card and 
+        cardsToUpdate = cardsToUpdate.map((card) => {
+            const copyCard = {...card};
+            if (copyCard.content === justFlippedCard.content && copyCard.id !== justFlippedCard.id) {
+                if (!copyCard.flipped) {
+                    isMatched = true;
+                    copyCard.matched = true;
+                } else {
+                    copyCard.flipped = true;
                 }
-                return copyCard;
-            });
-
-            if (!matched) {
-                // console.log("!matched")
-                cardsToUpdate2 = cardsToUpdate2.map((card) => {
-                    const copyCard = {...card};
-                    if (copyCard.id === id) {
-                        copyCard.flipped = true;
-                    }
-                    return copyCard
-                })
-            } else {
-                cardsToUpdate2 = cardsToUpdate2.map((card) => {
-                    const copyCard = {...card};
-                    if (copyCard.id === id) {
-                        copyCard.matched = true;
-                    }
-                    return copyCard
-                })
-                nextMatchedCnt++;
             }
-            
+            return copyCard;
+        });
+
+        if (!isMatched) {
+            cardsToUpdate = cardsToUpdate.map((card) => {
+                const copyCard = {...card};
+                if (!copyCard.matched && !copyCard.flipped) {
+                    copyCard.flipped = true;
+                }
+                return copyCard
+            })
+        } else {
+            cardsToUpdate = cardsToUpdate.map((card) => {
+                const copyCard = {...card};
+                if (copyCard.id === id) {
+                    copyCard.matched = true;
+                }
+                return copyCard
+            })
+        }
+        
+        if (!state.onAnimation && state.gameTurn === 1) {
             setTimeout(() => {
-                setState({...state, matched: nextMatchedCnt, gameTurn: nextTurn, cards: cardsToUpdate2});
-            }, 700);
+                setState({...state, onAnimation: false, matched: isMatched ? state.matched + 1 : state.matched, gameTurn: (state.gameTurn + 1) % 2, cards: cardsToUpdate});
+            }, 500);
         }
     }
-
+    
     const generateCardComponents = () => {
         return state.cards.map((obj) => {
             return <Card 
@@ -143,12 +128,15 @@ export const MemoryGame = () => {
     }
     return (
         <div className = "memoryGame-container">
-            <div className = "memoryGame-info" style = {{display: "flex"}}>
-                <h1>{state.matched}</h1>
+            <div className = "memoryGame-info">
+                <h1>{`Matched: ${state.matched}`}</h1>
                 <h1 className = "memoryGame-time">
                     <TimeCounter isFinished = {state.isFinished} onRestart = {onRestart}/>
                 </h1>
             </div>
+            {state.isFinished ? (
+                <h1>YOU WIN!!!</h1>
+            ) : (<></>)}
             <div className = "memoryGame-cards">
                 {generateCardComponents()}
             </div>

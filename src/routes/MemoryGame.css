@@ -7,10 +7,14 @@
 
 .memoryGame-info {
     display: flex;
-    padding: 1rem;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 .memoryGame-cards {
     display: flex;
     flex-wrap: wrap;
-    margin: 5% 13%;
+    justify-content: center;
+    margin: 0 25%;
+    margin-bottom: 10%;
 }
