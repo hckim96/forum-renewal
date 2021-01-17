@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "./TimeCounter.css";
 
-export const TimeCounter = ({isFinished, onRestart}) => {
+export const TimeCounter = ({started, isFinished, onRestart, writeRecord}) => {
     const [state, setState] = useState({
         startTime: Date.now(),
         diff: 0,
@@ -21,19 +21,22 @@ export const TimeCounter = ({isFinished, onRestart}) => {
     }
 
     useEffect(() => {
-        const id = setInterval(() => {
-            setState({...state, diff: Date.now() - state.startTime});
-        }, 80);
-        intervalRef.current = id;
-        return () => {
-            console.log("useEffect cleanup Executed")
-            clearInterval(intervalRef.current);
+        if (started) {
+            const id = setInterval(() => {
+                setState({...state, diff: Date.now() - state.startTime});
+            }, 80);
+            intervalRef.current = id;
+            return () => {
+                clearInterval(intervalRef.current);
+            }
+
         }
-    }, [state])
+    }, [state, started])
 
     useEffect(() => {
         if (isFinished) {
             clearInterval(intervalRef.current);
+            writeRecord(state.diff);
         }
     }, [isFinished])
 
@@ -46,9 +49,6 @@ export const TimeCounter = ({isFinished, onRestart}) => {
     }
     return (
         <div className = "timeCounter-container">
-            {/* <div className = "timeCounter-time">
-                {formatTime(state.diff)} <span>초</span>
-            </div> */}
             {formatTime(state.diff)}
             <button className = "timeCounter-restartButton" onClick = {handleRestart}>Restart</button>
         </div>

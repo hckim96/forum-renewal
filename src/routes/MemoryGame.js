@@ -3,10 +3,12 @@ import { Card } from '../components/Card'
 import { TimeCounter } from '../components/TimeCounter'
 import "./MemoryGame.css"
 import cardContent from "./cardContent.json";
+import { db } from '../firebase';
+import { RecordModal } from '../components/RecordModal';
 
 export const MemoryGame = () => {
 
-    const suffleCards = (arr) => {
+    const shuffleArr = (arr) => {
         const newArr = arr.slice();
         for (let i = newArr.length - 1; i > 0; i--) {
             const rand = Math.floor(Math.random() * (i + 1)); // 0 ~ i
@@ -17,9 +19,11 @@ export const MemoryGame = () => {
 
     const generateCards = () => {
         // let tmp = [...Array(3).keys()]
+
         let tmp = cardContent;
+        tmp = shuffleArr(tmp).slice(0, 6);
         tmp = tmp.concat(tmp);
-        tmp = suffleCards(tmp);
+        tmp = shuffleArr(tmp);
         return tmp.map((t) => {
             let obj = {};
             obj.id = Math.random().toString(36).substr(2, 9);
@@ -32,16 +36,59 @@ export const MemoryGame = () => {
     
     const [state, setState] = useState({
         cards: generateCards(), // [{id: , flipped: , ...}, {}, ...]
+        started: false,
         isFinished: false,
         gameTurn: 0,
         onAnimation: false,
         matched: 0,
+        recordList: [],
+        record: 0,
     });
 
+    const getRecords = () => {
+        let newRecordList = [];
+        let order = 1;
+        console.log("getRecords called");
+        db.ref('memoryGameRecord').orderByChild("record").once('value', (snapshot) => {
+            snapshot.forEach((snap) => {
+                newRecordList.push({
+                    key: snap.key,
+                    order: order,
+                    username: snap.val().username,
+                    record: snap.val().record
+                })
+                order = order + 1;
+            })
+            // return newRecordList;
+            setState({...state, recordList: newRecordList});
+        })
+    }
+    useEffect(() => {
+        getRecords();
+    }, [])
+    const generateRecordComponent = () => {
+        if (state.recordList) {
+            return state.recordList.map((r) => {
+                return <div key = {r.key}>
+                    <div style ={{display: "flex", justifyContent: "space-between"}}>
+                        <h2>{r.order}.</h2>
+                        <h2>{r.username}</h2>
+                        <h2>{r.record}초</h2>
+                    </div>
+                </div>
+            })
+
+        }
+    }
     useEffect(() => {
         if (!state.isFinished && !state.cards.find(card => !card.matched)) {
           setState({ ...state, isFinished: true });
+          // get time
+          // 
         } 
+
+        
+        
       }, [state]);
 
     const handleClick = (id) => {
@@ -118,6 +165,7 @@ export const MemoryGame = () => {
     }
     const onRestart = () => {
         setState({
+            ...state,
             cards: generateCards(), // [{id: , flipped: , ...}, {}, ...]
             isFinished: false,
             gameTurn: 0,
@@ -126,20 +174,50 @@ export const MemoryGame = () => {
             matched: 0
         });
     }
+    const writeRecord = (time) => {
+        setState({...state, record: time / 1000});
+    }
+    const onStart = () => {
+        setState({...state, started: true});
+        console.log(`onStart executed`)
+    }
     return (
-        <div className = "memoryGame-container">
-            <div className = "memoryGame-info">
-                <h1>{`Matched: ${state.matched}`}</h1>
-                <h1 className = "memoryGame-time">
-                    <TimeCounter isFinished = {state.isFinished} onRestart = {onRestart}/>
-                </h1>
+        <div>
+            {state.isFinished ? <RecordModal getRecords = {getRecords} record = {state.record}/> : <></>}
+                {state.started ? (
+            <div className = "memoryGame-container">
+                    <div className = "memoryGame-info">
+                        <h1>{`Matched: ${state.matched}`}</h1>
+                        <h1 className = "memoryGame-time">
+                            <TimeCounter started = {state.started} isFinished = {state.isFinished} onStart = {onStart} onRestart = {onRestart} writeRecord = {writeRecord}/>
+                        </h1>
+                        {state.started && state.isFinished ? (
+                            <h1>YOU WIN!!!</h1>
+                        ) : (<></>)}
+                    </div>
+                    <div className = "memoryGame-main">
+                        <div className = "grow-1">
+                            <></>
+                        </div> 
+                        <div className = "memoryGame-cards">
+                            {generateCardComponents()}
+                        </div>
+
+                        <div className = "grow-1">
+                            {generateRecordComponent()}
+                        </div>
+                    </div>
             </div>
-            {state.isFinished ? (
-                <h1>YOU WIN!!!</h1>
-            ) : (<></>)}
-            <div className = "memoryGame-cards">
-                {generateCardComponents()}
-            </div>
+
+                ) : (
+                    // <h1>Loading...</h1>
+                    <div className = "memoryGame-container">
+
+                        <button className = "timeCounter-restartButton" onClick = {onStart}>Start</button>
+                    </div>
+
+
+                )}
         </div>
     )
 }

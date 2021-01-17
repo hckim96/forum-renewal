@@ -11,10 +11,21 @@
     justify-content: center;
     align-items: center;
 }
+
+.memoryGame-main {
+    width: 100%;
+    margin-bottom: 10rem;
+    display: flex;
+}
 .memoryGame-cards {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin: 0 25%;
-    margin-bottom: 10%;
+    /* margin: 0 25%;
+    margin-bottom: 10%; */
+    width: 50vw;
+}
+
+.grow-1 {
+    width:25vw;
 }

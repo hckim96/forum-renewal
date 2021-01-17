@@ -2,6 +2,11 @@
     margin: calc(100vw / 2 / 4 * .05) ;
 }
 
+.flippy-front,
+.flippy-back {
+    padding: 0em !important;
+    border-radius: 1rem;
+}
 .card-front {
     width: 100%;
     height: 100%;
@@ -9,7 +14,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: 3px 3px 10px black;
-    border-radius: 10px;
+    border-radius: .7rem;
     opacity: 1.0;
     transition: all .3s ease;
 }
@@ -21,7 +26,7 @@
     align-items: center;
     justify-content: center;
     box-shadow: 3px 3px 10px black;
-    border-radius: 10px;
+    border-radius: .7rem;
     opacity: 1.0;
     transition: all .3s ease;
 }
@@ -29,6 +34,7 @@
 .card-back-image {
     width: 100%;
     height: 100%;
+    border-radius: .7rem;
     -webkit-user-drag: none;
     user-select: none;
 }

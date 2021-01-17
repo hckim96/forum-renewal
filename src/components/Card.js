@@ -10,7 +10,7 @@ export const Card = ({ id, content, flipped, handleClick, matched }) => {
         isFlipped={flipped}
         flipOnHover={false} // default false
         flipDirection="horizontal" // horizontal or vertical
-        style={{ width: window.innerWidth / 2 / 4 *.8, height: window.innerWidth / 2 / 4 * .8 * 1.5 }}
+        style={{ width: window.innerWidth / 2 / 4 *.8, height: window.innerWidth / 2 / 4 * .8 * 1.4 }}
       >
         <FrontSide
           animationDuration = {450}
