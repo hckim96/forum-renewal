@@ -85,7 +85,7 @@ createdAt: Date.now()
   let query = useQuery();
 
   return (
-    <div>
+    <div style = {{height: "100vh" , display: "flex", flexDirection: "column"}}>
       <Header/>
       <Route
         exact

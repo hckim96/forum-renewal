@@ -2,20 +2,18 @@ import React, { useState } from 'react'
 import "./RecordModal.css";
 import {db} from "../firebase";
 
-export const RecordModal = ({ record, getRecords}) => {
+export const RecordModal = ({ record, level}) => {
     const [state, setState] = useState({
         username: "",
         display: "",
     })
 
-    const handleRecordWrite = () => {
+    const handleRecordWrite = (level) => {
         let key = db.ref('memoryGameRecord').push().key;
         var updates = {};
-        updates['memoryGameRecord/' + key] = {username: state.username, record: record};
-
-        db.ref().update(updates).then(() => {
-            getRecords();
-        });
+        // console.log(`in handleRecordWrite level ${level}`);
+        updates['memoryGameRecord/' + key] = {username: state.username, record: record, level: level};
+        db.ref().update(updates);
     }
 
     return (
@@ -42,10 +40,10 @@ export const RecordModal = ({ record, getRecords}) => {
                         type="text" value={state.username}
                         onChange={e => setState({...state, username: e.target.value})}
                         onKeyDown = {(e) => {
-                            if (e.key == 'Enter') {
-                                handleRecordWrite();
+                            if (e.key === 'Enter') {
+                                handleRecordWrite(level);
                                 setState({ ...state, display: 'none' });
-                            } else if (e.key == "Escape") {
+                            } else if (e.key === "Escape") {
                                 setState({ ...state, display: 'none' });
                             }
                         }}
@@ -54,7 +52,7 @@ export const RecordModal = ({ record, getRecords}) => {
                 </div>
                 <button className = "recordModal-submitButton" 
                 onClick = {() => {
-                    handleRecordWrite();
+                    handleRecordWrite(level);
                     setState({ ...state, display: 'none' });
                 }}>등록하기</button>
             </div>

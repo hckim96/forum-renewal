@@ -17,13 +17,18 @@ export const MemoryGame = () => {
         return newArr;
     }
 
-    const generateCards = () => {
-        // let tmp = [...Array(3).keys()]
-
+    const generateCards = (level) => {
         let tmp = cardContent;
-        tmp = shuffleArr(tmp).slice(0, 6);
+        // let tmp = cardContent.concat(cardContent);
+        // tmp = tmp.concat(tmp);
+        // tmp = tmp.concat(tmp);
+        // tmp = tmp.concat(tmp);
+        let width = (level + 1) * 2;
+        let cardKindNum = width * (width - level) / 2;
+        tmp = shuffleArr(tmp).slice(0, cardKindNum);
         tmp = tmp.concat(tmp);
         tmp = shuffleArr(tmp);
+        // console.log(`level ${level} , tmp.length: ${tmp.length}`)
         return tmp.map((t) => {
             let obj = {};
             obj.id = Math.random().toString(36).substr(2, 9);
@@ -35,7 +40,7 @@ export const MemoryGame = () => {
     }
     
     const [state, setState] = useState({
-        cards: generateCards(), // [{id: , flipped: , ...}, {}, ...]
+        cards: generateCards(1), // [{id: , flipped: , ...}, {}, ...]
         started: false,
         isFinished: false,
         gameTurn: 0,
@@ -43,37 +48,42 @@ export const MemoryGame = () => {
         matched: 0,
         recordList: [],
         record: 0,
+        level: 1,
     });
 
-    const getRecords = () => {
+    const getRecords = (_level) => {
         let newRecordList = [];
         let order = 1;
-        console.log("getRecords called");
+        // console.log("getRecords called");
+        // db.ref('memoryGameRecord').orderByChild("level").equalTo(level) 
         db.ref('memoryGameRecord').orderByChild("record").once('value', (snapshot) => {
             snapshot.forEach((snap) => {
-                newRecordList.push({
-                    key: snap.key,
-                    order: order,
-                    username: snap.val().username,
-                    record: snap.val().record
-                })
-                order = order + 1;
+                if (snap.val().level === _level) {
+                    // console.log(`snap val level : ${snap.val().level} , _level : ${_level}`)
+                    newRecordList.push({
+                        key: snap.key,
+                        order: order,
+                        username: snap.val().username,
+                        record: snap.val().record
+                    })
+                    order = order + 1;
+                }
             })
             // return newRecordList;
             setState({...state, recordList: newRecordList});
         })
     }
     useEffect(() => {
-        getRecords();
-    }, [])
+        getRecords(state.level);
+    }, [state.level])
     const generateRecordComponent = () => {
         if (state.recordList) {
             return state.recordList.map((r) => {
                 return <div key = {r.key}>
-                    <div style ={{display: "flex", justifyContent: "space-between"}}>
-                        <h2>{r.order}.</h2>
-                        <h2>{r.username}</h2>
-                        <h2>{r.record}초</h2>
+                    <div style ={{display: "flex", justifyContent: "space-between", fontWeight: "bold"}}>
+                        <div>{r.order}.</div>
+                        <div>{r.username}</div>
+                        <div>{r.record}초</div>
                     </div>
                 </div>
             })
@@ -83,12 +93,7 @@ export const MemoryGame = () => {
     useEffect(() => {
         if (!state.isFinished && !state.cards.find(card => !card.matched)) {
           setState({ ...state, isFinished: true });
-          // get time
-          // 
         } 
-
-        
-        
       }, [state]);
 
     const handleClick = (id) => {
@@ -154,6 +159,7 @@ export const MemoryGame = () => {
     const generateCardComponents = () => {
         return state.cards.map((obj) => {
             return <Card 
+                        width = {(state.level + 1) * 2}
                         handleClick = {handleClick}
                         key = {obj.id}
                         id = {obj.id}
@@ -166,38 +172,41 @@ export const MemoryGame = () => {
     const onRestart = () => {
         setState({
             ...state,
-            cards: generateCards(), // [{id: , flipped: , ...}, {}, ...]
+            cards: generateCards(state.level), // [{id: , flipped: , ...}, {}, ...]
             isFinished: false,
             gameTurn: 0,
             onAnimation: false,
             waitCardId: 0,
-            matched: 0
+            matched: 0,
         });
     }
     const writeRecord = (time) => {
         setState({...state, record: time / 1000});
     }
-    const onStart = () => {
-        setState({...state, started: true});
-        console.log(`onStart executed`)
+    const onStart = (level) => {
+        setState({...state, 
+            cards: generateCards(level), 
+            started: true, 
+            level: level});
+        // console.log(`onStart executed`)
     }
     return (
-        <div>
-            {state.isFinished ? <RecordModal getRecords = {getRecords} record = {state.record}/> : <></>}
+        <>
+            {/* {state.isFinished ? <RecordModal getRecords = {() => {getRecords(state.level)}} record = {state.record} level = {state.level}/> : <></>} */}
+            {state.isFinished ? <RecordModal record = {state.record} level = {state.level}/> : <></>}
                 {state.started ? (
             <div className = "memoryGame-container">
-                    <div className = "memoryGame-info">
-                        <h1>{`Matched: ${state.matched}`}</h1>
-                        <h1 className = "memoryGame-time">
-                            <TimeCounter started = {state.started} isFinished = {state.isFinished} onStart = {onStart} onRestart = {onRestart} writeRecord = {writeRecord}/>
-                        </h1>
-                        {state.started && state.isFinished ? (
-                            <h1>YOU WIN!!!</h1>
-                        ) : (<></>)}
-                    </div>
                     <div className = "memoryGame-main">
                         <div className = "grow-1">
-                            <></>
+                            <div className = "memoryGame-info">
+                                <div>{`Matched: ${state.matched}`}</div>
+                                <div className = "memoryGame-time">
+                                    <TimeCounter started = {state.started} isFinished = {state.isFinished} onStart = {onStart} onRestart = {onRestart} writeRecord = {writeRecord}/>
+                                </div>
+                                {state.started && state.isFinished ? (
+                                    <div>YOU WIN!!!</div>
+                                ) : (<></>)}
+                            </div>
                         </div> 
                         <div className = "memoryGame-cards">
                             {generateCardComponents()}
@@ -211,13 +220,16 @@ export const MemoryGame = () => {
 
                 ) : (
                     // <h1>Loading...</h1>
-                    <div className = "memoryGame-container">
-
-                        <button className = "timeCounter-restartButton" onClick = {onStart}>Start</button>
+                    <div className = "memoryGame-levelContainer">
+                        <div style = {{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                            <button className = "memoryGame-levelSelectButton" onClick = {() => {onStart(1)}}>level1</button>
+                            <button className = "memoryGame-levelSelectButton" onClick = {() => {onStart(2)}}>level2</button>
+                            <button className = "memoryGame-levelSelectButton" onClick = {() => {onStart(3)}}>level3</button>
+                        </div>
                     </div>
 
 
                 )}
-        </div>
+        </>
     )
 }

@@ -6,8 +6,7 @@
 
 .timeCounter-time {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between ;
+    /* justify-content: space-between ; */
 
 }
 .timeCounter-restartButton {
@@ -16,7 +15,7 @@
     border: none;
     padding: .5rem;
     border-radius: .3rem;
-    margin-top: .5rem;
+    margin: .5rem;
     opacity: 1;
 }
 
@@ -25,7 +24,11 @@
     opacity: .7;
 }
 
-.timeCounter-time > .dynamic2 {
+/* .timeCounter-time > .dynamic2 {
     min-width: 6rem;
+    text-align: end;
+} */
+.timeCounter-time > .dynamic2 {
+    min-width: 3rem;
     text-align: end;
 }
