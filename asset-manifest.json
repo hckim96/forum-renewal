@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/forum-renewal/static/css/main.0b3423dc.chunk.css",
-    "main.js": "/forum-renewal/static/js/main.e4f585a4.chunk.js",
-    "main.js.map": "/forum-renewal/static/js/main.e4f585a4.chunk.js.map",
+    "main.css": "/forum-renewal/static/css/main.ed158e80.chunk.css",
+    "main.js": "/forum-renewal/static/js/main.72405617.chunk.js",
+    "main.js.map": "/forum-renewal/static/js/main.72405617.chunk.js.map",
     "runtime-main.js": "/forum-renewal/static/js/runtime-main.79309046.js",
     "runtime-main.js.map": "/forum-renewal/static/js/runtime-main.79309046.js.map",
     "static/css/2.bb4680cb.chunk.css": "/forum-renewal/static/css/2.bb4680cb.chunk.css",
@@ -12,14 +12,14 @@
     "static/js/3.2dad0098.chunk.js.map": "/forum-renewal/static/js/3.2dad0098.chunk.js.map",
     "index.html": "/forum-renewal/index.html",
     "static/css/2.bb4680cb.chunk.css.map": "/forum-renewal/static/css/2.bb4680cb.chunk.css.map",
-    "static/css/main.0b3423dc.chunk.css.map": "/forum-renewal/static/css/main.0b3423dc.chunk.css.map",
+    "static/css/main.ed158e80.chunk.css.map": "/forum-renewal/static/css/main.ed158e80.chunk.css.map",
     "static/js/2.8e594b0e.chunk.js.LICENSE.txt": "/forum-renewal/static/js/2.8e594b0e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.79309046.js",
     "static/css/2.bb4680cb.chunk.css",
     "static/js/2.8e594b0e.chunk.js",
-    "static/css/main.0b3423dc.chunk.css",
-    "static/js/main.e4f585a4.chunk.js"
+    "static/css/main.ed158e80.chunk.css",
+    "static/js/main.72405617.chunk.js"
   ]
 }
