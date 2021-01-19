@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import "./RecordModal.css";
 import {db} from "../firebase";
 
-export const RecordModal = ({ record, level}) => {
+export const RecordModal = ({ record, level, getRecords}) => {
     const [state, setState] = useState({
         username: "",
         display: "",
@@ -13,7 +13,9 @@ export const RecordModal = ({ record, level}) => {
         var updates = {};
         // console.log(`in handleRecordWrite level ${level}`);
         updates['memoryGameRecord/' + key] = {username: state.username, record: record, level: level};
-        db.ref().update(updates);
+        db.ref().update(updates).then(() => {
+            getRecords(level);
+        });
     }
 
     return (

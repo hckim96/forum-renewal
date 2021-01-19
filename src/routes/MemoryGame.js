@@ -19,16 +19,11 @@ export const MemoryGame = () => {
 
     const generateCards = (level) => {
         let tmp = cardContent;
-        // let tmp = cardContent.concat(cardContent);
-        // tmp = tmp.concat(tmp);
-        // tmp = tmp.concat(tmp);
-        // tmp = tmp.concat(tmp);
         let width = (level + 1) * 2;
         let cardKindNum = width * (width - level) / 2;
         tmp = shuffleArr(tmp).slice(0, cardKindNum);
         tmp = tmp.concat(tmp);
         tmp = shuffleArr(tmp);
-        // console.log(`level ${level} , tmp.length: ${tmp.length}`)
         return tmp.map((t) => {
             let obj = {};
             obj.id = Math.random().toString(36).substr(2, 9);
@@ -54,12 +49,9 @@ export const MemoryGame = () => {
     const getRecords = (_level) => {
         let newRecordList = [];
         let order = 1;
-        // console.log("getRecords called");
-        // db.ref('memoryGameRecord').orderByChild("level").equalTo(level) 
         db.ref('memoryGameRecord').orderByChild("record").once('value', (snapshot) => {
             snapshot.forEach((snap) => {
                 if (snap.val().level === _level) {
-                    // console.log(`snap val level : ${snap.val().level} , _level : ${_level}`)
                     newRecordList.push({
                         key: snap.key,
                         order: order,
@@ -67,6 +59,9 @@ export const MemoryGame = () => {
                         record: snap.val().record
                     })
                     order = order + 1;
+                    if (order > 10) {
+                        return true;
+                    }
                 }
             })
             // return newRecordList;
@@ -74,6 +69,7 @@ export const MemoryGame = () => {
         })
     }
     useEffect(() => {
+        // console.log(`state.level: ${state.level} useEffect[state.level] called, getRecords(state.level) will be executed`)
         getRecords(state.level);
     }, [state.level])
     const generateRecordComponent = () => {
@@ -159,13 +155,14 @@ export const MemoryGame = () => {
     const generateCardComponents = () => {
         return state.cards.map((obj) => {
             return <Card 
-                        width = {(state.level + 1) * 2}
+                        width = {(state.level  + 1) * 2}
                         handleClick = {handleClick}
                         key = {obj.id}
                         id = {obj.id}
                         content = {obj.content}
                         flipped = {obj.flipped}
                         matched = {obj.matched}
+
                     />
         })
     }
@@ -192,8 +189,8 @@ export const MemoryGame = () => {
     }
     return (
         <>
-            {/* {state.isFinished ? <RecordModal getRecords = {() => {getRecords(state.level)}} record = {state.record} level = {state.level}/> : <></>} */}
-            {state.isFinished ? <RecordModal record = {state.record} level = {state.level}/> : <></>}
+            {state.isFinished ? <RecordModal getRecords = {getRecords} record = {state.record} level = {state.level}/> : <></>}
+            {/* {state.isFinished ? <RecordModal record = {state.record} level = {state.level}/> : <></>} */}
                 {state.started ? (
             <div className = "memoryGame-container">
                     <div className = "memoryGame-main">
